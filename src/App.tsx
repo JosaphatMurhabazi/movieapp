@@ -1,6 +1,6 @@
-import {useState, useEffect} from "react";
-import './App.css'
+import {useEffect, useState} from "react";
 import Search from "./components/Search.tsx";
+import Spinner from "./components/Spinner.tsx";
 
 interface Movie {
     id: number;
@@ -69,9 +69,9 @@ const App = () => {
                 </header>
 
                 <section className="all-movies">
-                    <h2>All Movies</h2>
+                    <h2 className="mt-[40px]">All Movies</h2>
                     {isLoading ?(
-                        <p className="white">Loading...</p>
+                        <Spinner />
                     ):errorMessage ?(
                         <p className="text-red-500">{errorMessage}</p>
                     ):(
