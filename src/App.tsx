@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react";
 import Search from "./components/Search.tsx";
 import Spinner from "./components/Spinner.tsx";
+import MovieCard from "./components/MovieCard.tsx";
 
-interface Movie {
+export interface Movie {
     id: number;
     title: string;
     vote_average: number;
@@ -77,7 +78,7 @@ const App = () => {
                     ):(
                         <ul>
                             {movieList.map((movie) => (
-                                <p className="text-white" key={movie.id}>{movie.title}</p>
+                                <MovieCard key={movie.id} movie={movie}/>
                             ))}
                         </ul>
                     )}
