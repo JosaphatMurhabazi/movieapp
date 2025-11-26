@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import Search from "./components/Search.tsx";
 import Spinner from "./components/Spinner.tsx";
 import MovieCard from "./components/MovieCard.tsx";
+import {useDebounce} from "react-use";
 
 export interface Movie {
     id: number;
@@ -24,10 +25,13 @@ const API_OPTIONS = {
 }
 
 const App = () => {
-    const [searchTerm, setSearchTerm] = useState('')
-    const [errorMessage, setErrorMessage] = useState('')
-    const [movieList, setMovieList] = useState<Movie[]>([]);
-    const [isLoading, setIsLoading] = useState(false)
+    const [searchTerm, setSearchTerm] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [movieList, setMovieList] = useState<Movie[]>([]);;
+    const [isLoading, setIsLoading] = useState(false);
+    const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+
+    useDebounce(() =>setDebouncedSearchTerm(searchTerm), 500,[searchTerm]);
 
     const fetchMovies = async (query='') => {
         setIsLoading(true);
@@ -56,8 +60,8 @@ const App = () => {
     }
 
     useEffect(() => {
-        fetchMovies(searchTerm);
-    }, [searchTerm]);
+        fetchMovies(debouncedSearchTerm);
+    }, [debouncedSearchTerm]);
 
     return (
         <main>
