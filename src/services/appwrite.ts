@@ -1,5 +1,6 @@
-import type {Movie, TrendingMovie} from "./App.tsx";
 import {Client, ID, Query, TablesDB} from "appwrite";
+import type { Movie } from "../types/movie.types";
+import type {TrendingMovie} from "../types/appwrite.types.ts";
 
 const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID;
 const DATABASE_ID = import.meta.env.VITE_APPWIRITE_DATABASE_ID;
