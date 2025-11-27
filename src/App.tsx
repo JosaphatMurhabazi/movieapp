@@ -3,14 +3,20 @@ import Search from "./components/Search.tsx";
 import Spinner from "./components/Spinner.tsx";
 import MovieCard from "./components/MovieCard.tsx";
 import {useDebounce} from "react-use";
-import {getTrendinMovies, updateSearchCount} from "./appwrite.ts";
+import {getTrendingMovies, updateSearchCount} from "./appwrite.ts";
+
+export interface TrendingMovie{
+    movie_id: number;
+    poster_url: string | null;
+    searchTerm: string;
+    count: number;
+}
 
 export interface Movie {
     id: number;
     title: string;
     vote_average: number;
     poster_path: string | null;
-    poster_url: string | null;
     release_date: string;
     original_language: string;
 
@@ -34,7 +40,7 @@ const App = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const [trendingMovies, setTrendingMovies] = useState<Movie[]>([])
+    const [trendingMovies, setTrendingMovies] = useState<TrendingMovie[]>([]);
 
     useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
 
@@ -70,7 +76,7 @@ const App = () => {
 
     const loadTrendingMovies = async () => {
         try {
-            const movies = await getTrendinMovies();
+            const movies = await getTrendingMovies();
             setTrendingMovies(movies);
 
         }catch (e) {
@@ -102,9 +108,9 @@ const App = () => {
                         <h2>Trending Movies</h2>
                         <ul>
                             {trendingMovies.map((movie,index) =>(
-                                <li key={movie.id}>
+                                <li key={movie.movie_id}>
                                     <p>{index+1}</p>
-                                    <img src={movie.poster_url} alt={movie.title}/>
+                                    <img src={movie.poster_url ?? 'no-movie.png'} alt={movie.searchTerm}/>
                                 </li>
                             ) )}
                         </ul>

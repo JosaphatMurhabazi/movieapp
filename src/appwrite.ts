@@ -1,4 +1,4 @@
-import type {Movie} from "./App.tsx";
+import type {Movie, TrendingMovie} from "./App.tsx";
 import {Client, ID, Query, TablesDB} from "appwrite";
 
 const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID;
@@ -47,15 +47,18 @@ export const updateSearchCount = async (searchTerm: string, movie: Movie) => {
     }
 }
 
-export const getTrendinMovies = async () => {
+export const getTrendingMovies = async ():Promise<TrendingMovie[]> => {
     try {
         const result = await database.listRows({
             databaseId: DATABASE_ID,
-            tableId: TABLE_ID,queries: [Query.limit(5), Query.orderDesc('count')],});
+            tableId: TABLE_ID,
+            queries: [Query.limit(5), Query.orderDesc('count')]
+        });
 
-        return result.rows;
+        return result.rows as unknown as TrendingMovie[];
     }catch (e) {
-        console.error(e)
+        console.error(e);
+        return [];
     }
 
 }
