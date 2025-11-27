@@ -1,4 +1,4 @@
-import type {Movie} from "../App.tsx";
+import type {Movie} from "../types/movie.types.ts";
 
 interface MovieCardProps {
     movie: Movie;
